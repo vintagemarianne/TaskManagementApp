@@ -13,6 +13,7 @@
         _listeners.edit = listeners[2];
         _listeners.delete = listeners[3];
         _listeners.filter = listeners[4];
+        _listeners.save = listeners[5];
 
         var el = document.getElementById.bind(document);
         _elements = {
@@ -31,12 +32,14 @@
             closeModalIcon: el('closeModalIcon'),
             tab0: el('tab0'),
             tab1: el('tab1'),
-            tab2: el('tab2')
+            tab2: el('tab2'),
+            saveBtn: el('saveBtn')
         };
 
         _elements.closeModalIcon.addEventListener('click', closeModal);
         _elements.addBtn.addEventListener('click', addTodo);
         _elements.tabs.addEventListener('click', filter);
+        _elements.saveBtn.addEventListener('click', save);
     }
 
     function render(todos, filter) {
@@ -84,6 +87,10 @@
             _elements.editInputField.value = '';
             closeModal();
         })
+    }
+
+    function save() {
+        _listeners.save();
     }
 
     function filter(e) {

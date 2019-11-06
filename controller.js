@@ -11,7 +11,7 @@
         } else {
             _model = { todos: [], filter: 0};
         }
-        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos]);
+        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos]);
         render();
         app.view.changeTab(_model.filter + '');
     }
@@ -42,6 +42,10 @@
     function filterTodos(filter) {
         _model.filter = filter;
         render();
+    }
+
+    function saveTodos() {
+        console.log("SAVE TODOS")
     }
 
     function render() {
