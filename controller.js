@@ -47,7 +47,7 @@
     function saveTodos() {
         var request = new XMLHttpRequest();
         var data = JSON.stringify(_model);
-        request.open('POST', '/server.js', true);
+        request.open('POST', '/save', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(data);
         console.log(data)
