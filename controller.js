@@ -45,7 +45,12 @@
     }
 
     function saveTodos() {
-        console.log("SAVE TODOS")
+        var request = new XMLHttpRequest();
+        var data = JSON.stringify(_model);
+        request.open('POST', '/server.js', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(data);
+        console.log(data)
     }
 
     function render() {
