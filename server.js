@@ -1,6 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const mongoClient = require('mongodb').MongoClient;
+
+const dbUrl = "mongodb://localhost:27017/";
 
 http.createServer(function (req, res) {
 
@@ -42,13 +45,20 @@ function converExt(ext) {
 }
 
 function saveData(req) {
-    var jsonData;
+    var jsonData = '';
 
     req.on('data', data => {
-        jsonData = JSON.parse(data.toString());
+        jsonData += data.toString()
     });
 
     req.on('end', () => {
-        console.log(jsonData)
+        mongoClient.connect(dbUrl, function (err, db) {
+            if (err) throw err;
+            var dbo = db.db('todoapp');
+            dbo.collection('model').insertOne(JSON.parse(jsonData), function (err, res) {
+                if (err) throw err;
+                db.close();
+            })
+        })
     });
 }

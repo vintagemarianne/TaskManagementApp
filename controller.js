@@ -45,8 +45,12 @@
     }
 
     function saveTodos() {
+        // console.log(_model.todos)
         var request = new XMLHttpRequest();
-        var data = JSON.stringify(_model);
+        var data = JSON.stringify({
+            'todos': _model.todos,
+            'filter': _model.filter
+        });
         request.open('POST', '/save', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(data);
