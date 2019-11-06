@@ -1,9 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const mongoClient = require('mongodb').MongoClient;
-
-const dbUrl = "mongodb://localhost:27017/";
 
 http.createServer(function (req, res) {
 
@@ -13,9 +10,8 @@ http.createServer(function (req, res) {
     } else {
         var pathname = url.parse(req.url, true).pathname;
         var ext = pathname.substr(pathname.indexOf('.') + 1, pathname.length);
-        var address = req.url.substr(1, req.url.length);
         ext = converExt(ext);
-        fs.readFile(address, function (err, data) {
+        fs.readFile('client' + req.url, function (err, data) {
             if (err) {
                 res.writeHead(500);
                 res.write(err.name);
@@ -52,13 +48,13 @@ function saveData(req) {
     });
 
     req.on('end', () => {
-        mongoClient.connect(dbUrl, function (err, db) {
-            if (err) throw err;
-            var dbo = db.db('todoapp');
-            dbo.collection('model').insertOne(JSON.parse(jsonData), function (err, res) {
-                if (err) throw err;
-                db.close();
-            })
-        })
+        // mongoClient.connect(dbUrl, function (err, db) {
+        //     if (err) throw err;
+        //     var dbo = db.db('todoapp');
+        //     dbo.collection('model').insertOne(JSON.parse(jsonData), function (err, res) {
+        //         if (err) throw err;
+        //         db.close();
+        //     })
+        // })
     });
 }
