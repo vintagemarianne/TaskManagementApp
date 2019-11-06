@@ -271,6 +271,7 @@ body {
 }
 
 .modal .input-wrapper {
+    position: absolute;
     width: 80%;
     top: 50%;
     left: 50%;
