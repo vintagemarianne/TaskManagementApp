@@ -2,7 +2,7 @@
     --color1: #4B2637;
     --color2: #7D2941;
     --color3: #E9E3E3;
-    --color4: #B3A2A2
+    --color4: #B3A2A2;
 }
 
 html,
@@ -22,6 +22,7 @@ body {
 
 .header {
     width: 100%;
+    position: relative;
     display: flex;
     align-items: center;
     padding: 16px 32px;
@@ -35,6 +36,19 @@ body {
     padding: 0;
     margin: 0;
     color: var(--color3)
+}
+
+.save-btn {
+    cursor: pointer;
+    background-color: var(--color3);
+    color: var(--color2);
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 5px;
+    outline: none;
+    padding: 8px 16px;
+    position: absolute;
+    right: 32px;
 }
 
 .input-wrapper {
