@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
-    <link href="app/css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
     <title>ToDo App</title>
 </head>
 
@@ -14,7 +14,8 @@
     <div class="input-wrapper">
         <label for="input">New Task: </label>
         <div class="input-box">
-            <input name="input" id="input" class="input" type="text" placeholder="Write new task here..." autocomplete="off"/>
+            <input name="input" id="input" class="input" type="text" placeholder="Write new task here..."
+                autocomplete="off" />
             <button class="add-btn" id="addBtn">Add</button>
         </div>
     </div>
@@ -37,20 +38,15 @@
             <span class="times" id="closeModalIcon">&times;</span>
             <label for="input">Edit Task: </label>
             <div class="input-box">
-                <input name="input" id="modalInput" class="input" type="text" autocomplete="off"/>
+                <input name="input" id="modalInput" class="input" type="text" autocomplete="off" />
                 <button class="add-btn" id="modalBtn">Edit</button>
             </div>
         </div>
     </div>
 
-    <script>
-        var model = {},
-            view = {};
-    </script>
-
-    <script src="app/js/index.js"></script>
-    <script src="app/js/view.js"></script>
-    <script src="app/js/controller.js"></script>
+    <script src="index.js"></script>
+    <script src="view.js"></script>
+    <script src="controller.js"></script>
 </body>
 
 </html>
