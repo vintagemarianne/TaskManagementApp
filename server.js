@@ -48,13 +48,9 @@ function saveData(req) {
     });
 
     req.on('end', () => {
-        // mongoClient.connect(dbUrl, function (err, db) {
-        //     if (err) throw err;
-        //     var dbo = db.db('todoapp');
-        //     dbo.collection('model').insertOne(JSON.parse(jsonData), function (err, res) {
-        //         if (err) throw err;
-        //         db.close();
-        //     })
-        // })
+        fs.writeFile('db.txt', jsonData, function(err) {
+            if(err) throw err;
+            console.log("SAVED");
+        })
     });
 }
