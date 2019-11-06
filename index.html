@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
+    <link href="app/css/styles.css" rel="stylesheet" type="text/css" />
+    <title>ToDo App</title>
+</head>
+
+<body>
+    <div class="header"></div>
+    <h1 class="header-title">List Your Tasks Here!</h1>
+    <div class="input-wrapper">
+        <label for="input">New Task: </label>
+        <div class="input-box">
+            <input name="input" id="input" class="input" type="text" placeholder="Write new task here..." autocomplete="off"/>
+            <button class="add-btn" id="addBtn">Add</button>
+        </div>
+    </div>
+    <div class="main-body" id="mainBody">
+        <div class="tab-btn-wrapper" id="tabBar">
+            <button class="tablinks" value="0" id="tab0">All Tasks</button>
+            <button class="tablinks" value="1" id="tab1">Active</button>
+            <button class="tablinks" value="2" id="tab2">Completed</button>
+        </div>
+
+
+        <div class="tab active-tab" id="allTasksTab">
+            <ul class="tab-list" id="list"></ul>
+        </div>
+
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="input-wrapper">
+            <span class="times" id="closeModalIcon">&times;</span>
+            <label for="input">Edit Task: </label>
+            <div class="input-box">
+                <input name="input" id="modalInput" class="input" type="text" autocomplete="off"/>
+                <button class="add-btn" id="modalBtn">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var model = {},
+            view = {};
+    </script>
+
+    <script src="app/js/index.js"></script>
+    <script src="app/js/view.js"></script>
+    <script src="app/js/controller.js"></script>
+</body>
+
+</html>
