@@ -5,7 +5,7 @@
 
     var _model;
     function init() {
-        var jsonModel = getLocalStorage('model');
+        var jsonModel = app.localStorage.get('model');
         if(jsonModel) {
             _model = jsonModel;
         } else {
@@ -18,7 +18,8 @@
 
     function addTodo(value) {
         if (!value) return;
-        _model.todos.push({ title: value });
+        _model.todos.push({ id: _model.todos.length === 0 ? 1 : _model.todos[_model.todos.length - 1].id + 1,
+             title: value });
         render();
     }
 
@@ -34,7 +35,7 @@
 
     function deleteTodo(todo) {
         _model.todos = _model.todos.filter( item => {
-            return item.title !== todo.title;
+            return item.id !== todo.id;
         });
         render();
     }
@@ -45,34 +46,19 @@
     }
 
     function saveTodos() {
-        // console.log(_model.todos)
-        var request = new XMLHttpRequest();
-        var data = JSON.stringify({
-            'todos': _model.todos,
-            'filter': _model.filter
-        });
-        request.open('POST', '/save', true);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(data);
-        console.log(data)
+        app.request.set(app.localStorage.get('model'))
     }
 
     function render() {
-        setLocalStorage('model', _model);
+
+        app.localStorage.set('model', _model);
+
         var filter = _model.filter,
             filteredTodos = _model.todos.filter(function (t) {
                 if (filter === 0) return true;
                 return filter === 1 ? !t.completed : t.completed;
             });
         app.view.render(filteredTodos, filter);
-    }
-
-    function setLocalStorage(item, obj) {
-        localStorage.setItem(item, JSON.stringify(obj));
-    }
-
-    function getLocalStorage(item) {
-        return JSON.parse(localStorage.getItem(item));
     }
 
 }(app));

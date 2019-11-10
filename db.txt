@@ -1,1 +1,1 @@
-{"todos":[],"filter":0}
+{"todos":[{"id":1,"title":"hello"},{"id":2,"title":"bye","completed":true}],"filter":0}
