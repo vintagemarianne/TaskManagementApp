@@ -1,6 +1,7 @@
 (function (app) {
     app.controller = {
-        init: init
+        init: init,
+        render: render
     };
 
     var _model;
@@ -11,13 +12,14 @@
         } else {
             _model = { todos: [], filter: 0};
         }
-        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos]);
+        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos]);
         render();
         app.view.changeTab(_model.filter + '');
     }
 
     function addTodo(value) {
         if (!value) return;
+        console.log(_model.todos)
         _model.todos.push({ id: _model.todos.length === 0 ? 1 : _model.todos[_model.todos.length - 1].id + 1,
              title: value });
         render();
@@ -46,11 +48,36 @@
     }
 
     function saveTodos() {
-        app.request.set(app.localStorage.get('model'))
+        var request = new XMLHttpRequest();
+        var data = JSON.stringify({
+            'todos': _model.todos,
+            'filter': _model.filter
+        });
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                alert('saved successfully.');
+            }
+        }
+        request.open('POST', 'save', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(data);
+    }
+
+    function downloadTodos() {
+        var request = new XMLHttpRequest();
+        var data;
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                alert('downloaded successfully.');
+                _model = JSON.parse(request.responseText);
+                render();
+            }
+        }
+        request.open('GET', 'download', true);
+        request.send();
     }
 
     function render() {
-
         app.localStorage.set('model', _model);
 
         var filter = _model.filter,

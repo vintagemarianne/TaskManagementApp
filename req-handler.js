@@ -2,15 +2,6 @@ const fs = require('fs');
 
 exports.requestHandler = function requestHandler(req, res) {
 
-    // var routeHandler = ({
-    //     'GET': {
-    //         '/': rootHandler,
-    //         '/download': downloadHandler
-    //     },
-    //     'POST': {
-    //         '/save': saveHandler
-    //     }
-    // })[req.method][req.url];
     var routeHandler;
 
     if(req.method === 'GET') {
@@ -38,8 +29,18 @@ exports.requestHandler = function requestHandler(req, res) {
 		staticFileHandler(req, res);
     }
 
-    function downloadHandler() {
-
+    function downloadHandler(req, res) {
+		fs.readFile('db.txt', function(err, data) {
+			if(err) {
+                res.writeHead(500);
+                res.write(err.name);
+				res.end();
+				return;
+			}
+			res.writeHead(200, {'Content-Type': 'text/json'});
+			res.write(data);
+			res.end();
+		});
     }
 
     function saveHandler(req, res) {
@@ -65,7 +66,7 @@ exports.requestHandler = function requestHandler(req, res) {
     }
 
     function staticFileHandler(req, res) {
-        fs.readFile('./client/' + req.url, function (err, data) {
+        fs.readFile('client/' + req.url, function (err, data) {
             if (err) {
                 res.writeHead(500);
                 res.write(err.name);

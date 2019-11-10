@@ -14,6 +14,7 @@
         _listeners.delete = listeners[3];
         _listeners.filter = listeners[4];
         _listeners.save = listeners[5];
+        _listeners.download = listeners[6];
 
         var el = document.getElementById.bind(document);
         _elements = {
@@ -33,13 +34,15 @@
             tab0: el('tab0'),
             tab1: el('tab1'),
             tab2: el('tab2'),
-            saveBtn: el('saveBtn')
+            saveBtn: el('saveBtn'),
+            downloadBtn: el('downloadBtn')
         };
 
         _elements.closeModalIcon.addEventListener('click', closeModal);
         _elements.addBtn.addEventListener('click', addTodo);
         _elements.tabs.addEventListener('click', filter);
         _elements.saveBtn.addEventListener('click', save);
+        _elements.downloadBtn.addEventListener('click', download);
     }
 
     function render(todos, filter) {
@@ -91,6 +94,10 @@
 
     function save() {
         _listeners.save();
+    }
+
+    function download() {
+        _listeners.download();
     }
 
     function filter(e) {
