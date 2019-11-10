@@ -38,7 +38,14 @@ body {
     color: var(--color3)
 }
 
-.save-btn {
+.header-btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 32px;
+}
+
+.header-btn {
     cursor: pointer;
     background-color: var(--color3);
     color: var(--color2);
@@ -47,8 +54,7 @@ body {
     border-radius: 5px;
     outline: none;
     padding: 8px 16px;
-    position: absolute;
-    right: 32px;
+    margin-left: 5px;
 }
 
 .input-wrapper {
