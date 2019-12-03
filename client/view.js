@@ -35,7 +35,8 @@
             tab1: el('tab1'),
             tab2: el('tab2'),
             saveBtn: el('saveBtn'),
-            downloadBtn: el('downloadBtn')
+            downloadBtn: el('downloadBtn'),
+            signupBtn: el('signupBtn'),
         };
 
         _elements.closeModalIcon.addEventListener('click', closeModal);
@@ -44,6 +45,7 @@
         _elements.saveBtn.addEventListener('click', save);
         _elements.downloadBtn.addEventListener('click', download);
     }
+
 
     function render(todos, filter) {
         if (!todos.length) {

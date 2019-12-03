@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="widht = viewport-width, initial-scale = 1.0" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
     <link href="signup.css" type="text/css" rel="stylesheet" />
 </head>
 
@@ -17,18 +17,20 @@
         </div>
         <div class="right-container">
             <h3 class="form-title">Sign Up</h3>
-            <form class="form">
+            <form class="form" action="http://localhost:8080/user">
                 <label>Full Name</label>
-                <input type="text" class="input-field" placeholder="Full Name" required id="fullnameInput" name="fullname" autocomplete="off">
+                <input type="text" class="input-field" placeholder="Full Name" required id="fullnameInput" autocomplete="off" name="fullname">
                 <label>Username</label>
-                <input type="text" class="input-field" placeholder="Username" required id="usernameInput" name="username" autocomplete="off">
+                <input type="text" class="input-field" placeholder="Username" required id="usernameInput" autocomplete="off" name="username">
                 <label>Password</label>
-                <input type="password" class="input-field" placeholder="Password" required minlength="6" name="password" id="passwordInput" autocomplete="off">
-                <button class="signup-btn" type="submit">Sign Up</button>
+                <input type="password" class="input-field" placeholder="Password" required minlength="6" id="passwordInput" autocomplete="off" name="password">
+                <button class="signup-btn" id="signupBtn" type="submit">Sign Up</button>
                 <div class="login-div">Already have an account? <a href="#" class="login-link">Sing in</a>.</div>
             </form>
         </div>
     </div>
+
+    <script src="signup.js"></script>
 </body>
 
 </html>
