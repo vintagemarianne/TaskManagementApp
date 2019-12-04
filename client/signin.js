@@ -2,19 +2,17 @@
 
     var el = document.getElementById.bind(document),
         _elements = {
-            submitBtn: el('signupBtn'),
-            fullname: el('fullnameInput'),
+            signinBtn: el('signinBtn'),
             username: el('usernameInput'),
             password: el('passwordInput'),
-            signinBtn: el('signinBtn')
+            signupBtn: el('signupBtn')
         };
 
-    _elements.submitBtn.addEventListener('click', signup);
-    _elements.signinBtn.addEventListener('click', redirectToSigninPage);
+    _elements.signinBtn.addEventListener('click', signin);
+    _elements.signupBtn.addEventListener('click', redirectToSignupPage);
 
-    function signup(e) {
+    function signin(e) {
         var data = {
-            name: _elements.fullname.value,
             username: _elements.username.value,
             password: _elements.password.value
         };
@@ -24,8 +22,8 @@
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                document.location.href = 'http://localhost:8080/user';
                 alert('Signed in successfully!');
+                document.location.href = 'http://localhost:8080/user';
             }
         }
         xhr.open('POST', 'signup', true);
@@ -33,8 +31,8 @@
         xhr.send(data);
     }
 
-    function redirectToSigninPage() {
-        document.location.href = 'http://localhost:8080/signin';
+    function redirectToSignupPage() {
+        document.location.href = 'http://localhost:8080/signup';
     }
 
 }());

@@ -23,6 +23,9 @@ exports.requestHandler = function requestHandler(req, res) {
             case '/signin':
                 routeHandler = signinProvider;
                 break;
+            case '/signup':
+                routeHandler = signupProvider;
+                break;
         }
     } else if (req.method === 'POST') {
         switch (req.url) {
@@ -56,6 +59,11 @@ exports.requestHandler = function requestHandler(req, res) {
 
     function signinProvider(req, res) {
         req.url = 'signin.html';
+        staticFileHandler(req, res);
+    }
+
+    function signupProvider(req, res) {
+        req.url = 'signup.html';
         staticFileHandler(req, res);
     }
 
@@ -94,7 +102,7 @@ exports.requestHandler = function requestHandler(req, res) {
 
     function signupHandler(req, res) {
         var jsonData = '';
-        
+
         req.on('data', data => {
             jsonData += data.toString('utf-8')
         });

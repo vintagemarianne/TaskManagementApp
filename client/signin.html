@@ -19,14 +19,15 @@
             <h3 class="form-title">Sign In</h3>
             <form class="form" id="signupForm">
                 <label>Username</label>
-                <input type="text" class="input-field" placeholder="Username" required id="usernameInput" name="username" autocomplete="off">
+                <input type="text" class="input-field" placeholder="Username" required id="usernameInput" autocomplete="off">
                 <label>Password</label>
-                <input type="password" class="input-field" placeholder="Password" required minlength="6" name="password" id="passwordInput" autocomplete="off">
-                <button class="signin-btn" type="submit">Sign in</button>
-                <div class="login-div">Don't have an account? <a href="#" class="login-link">Sign up</a>.</div>
+                <input type="password" class="input-field" placeholder="Password" required minlength="6" id="passwordInput" autocomplete="off">
+                <button class="signin-btn" type="button" id="signinBtn">Sign in</button>
+                <div class="login-div">Don't have an account? <span class="login-link" id="signupBtn">Sign up</span>.</div>
             </form>
         </div>
     </div>
+    <script src="signin.js"></script>
 </body>
 
 </html>
