@@ -24,9 +24,12 @@
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert('Signed in successfully!');
                 document.location.href = 'http://localhost:8080/user';
+            } else if (xhr.readyState === 4 && xhr.status === 500) {
+                alert(xhr.responseText);
+                // document.location.href = 'http://localhost:8080/user';
             }
         }
-        xhr.open('POST', 'signup', true);
+        xhr.open('POST', 'signin', true);
         xhr.setRequestHeader('Content-Type', 'text/plain');
         xhr.send(data);
     }

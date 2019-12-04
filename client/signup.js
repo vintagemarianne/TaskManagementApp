@@ -24,8 +24,8 @@
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                alert('Signed up successfully!');
                 document.location.href = 'http://localhost:8080/user';
-                alert('Signed in successfully!');
             }
         }
         xhr.open('POST', 'signup', true);

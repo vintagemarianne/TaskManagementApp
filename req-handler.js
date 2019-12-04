@@ -36,6 +36,9 @@ exports.requestHandler = function requestHandler(req, res) {
             case '/signup':
                 routeHandler = signupHandler;
                 break;
+            case '/signin':
+                routeHandler = signinHandler;
+                break;
             case '/save':
                 routeHandler = saveHandler;
                 break;
@@ -70,21 +73,6 @@ exports.requestHandler = function requestHandler(req, res) {
         req.url = 'signup.html';
         staticFileHandler(req, res);
     }
-
-    // function signup() {
-    //     var data = {
-    //         'name': query.fullname,
-    //         'username': query.username,
-    //         'password': query.password
-    //     }
-
-    //     fs.writeFile(data.username + '.json', JSON.stringify(data), function (err) {
-    //         if (err) {
-    //             console.log(err.message)
-    //             return;
-    //         }
-    //     });
-    // }
 
     function downloadProvider(req, res) {
         fs.readFile('db.txt', function (err, data) {
@@ -125,25 +113,75 @@ exports.requestHandler = function requestHandler(req, res) {
                     database = [];
                 } else {
                     database = JSON.parse(fileData);
+                }
+                
+                jsonData = JSON.parse(jsonData);
+                jsonData.data = {
+                    todos: [],
+                    filter: 0
+                };
 
-                    jsonData = JSON.parse(jsonData);
-                    jsonData.data = {
-                        todos: [],
-                        filter: 0
-                    };
+                database.push((jsonData));
 
-                    database.push((jsonData));
-
-                    fs.writeFile('db.txt', JSON.stringify(database), function (err) {
-                        if (err) {
-                            res.writeHead(500);
-                            res.end();
-                            return;
-                        }
-                        res.writeHead(200);
-                        res.write('successful');
+                fs.writeFile('db.txt', JSON.stringify(database), function (err) {
+                    if (err) {
+                        res.writeHead(500);
                         res.end();
-                    });
+                        return;
+                    }
+                    res.writeHead(200);
+                    res.write('successful');
+                    res.end();
+                });
+
+            });
+
+        });
+    }
+
+    function signinHandler(req, res) {
+        var jsonData = '',
+            fileData = '';
+
+        req.on('data', data => {
+            jsonData += data.toString('utf-8')
+        });
+
+        req.on('end', () => {
+            fs.readFile('db.txt', function (err, data) {
+                if (err) {
+                    console.log('error')
+                    return;
+                }
+
+                fileData += data.toString('utf-8');
+
+                if (fileData === '') {
+                    res.writeHead(500);
+                    res.write('You have not signed in yet.');
+                    res.end();
+                    return;
+                } else {
+                    database = JSON.parse(fileData);
+                    jsonData = JSON.parse(jsonData);
+
+                    var isUser = database.some(item => jsonData.username === item.username);
+                    var isAuthenticated = database.some(item => jsonData.username === item.username && jsonData.password === item.password);
+
+                    if(!isUser) {
+                        res.writeHead(500);
+                        res.write('You have not signed in yet.');
+                        res.end();
+                        return;
+                    } else if(!isAuthenticated) {
+                        res.writeHead(500);
+                        res.write('Username or password is incorrect.');
+                        res.end();
+                        return;
+                    }
+                    res.writeHead(200);
+                    res.write('successful');
+                    res.end();
                 }
             });
 
