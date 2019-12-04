@@ -138,9 +138,8 @@ body {
 }
 
 .login-link {
-    text-decoration: none;
     color: var(--color2);
-
+    cursor: pointer;
 }
 
 @media all and (max-width: 600px) {
