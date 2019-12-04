@@ -2,7 +2,11 @@ const fs = require('fs');
 const querystring = require('querystring');
 const url = require('url');
 
+// const databaseHandler = require('./db-handler').databaseHandler();
+
 exports.requestHandler = function requestHandler(req, res) {
+
+    var database = [];
 
     var routeHandler;
 
@@ -101,16 +105,48 @@ exports.requestHandler = function requestHandler(req, res) {
     //POST-HANDLERS=========================================================
 
     function signupHandler(req, res) {
-        var jsonData = '';
+        var jsonData = '',
+            fileData = '';
 
         req.on('data', data => {
             jsonData += data.toString('utf-8')
         });
 
         req.on('end', () => {
-            res.writeHead(200);
-            res.write('successful');
-            res.end();
+
+            fs.readFile('db.txt', function (err, data) {
+                if (err) {
+                    console.log('error')
+                    return;
+                }
+
+                fileData += data.toString('utf-8');
+                if (fileData === '') {
+                    database = [];
+                } else {
+                    database = JSON.parse(fileData);
+
+                    jsonData = JSON.parse(jsonData);
+                    jsonData.data = {
+                        todos: [],
+                        filter: 0
+                    };
+
+                    database.push((jsonData));
+
+                    fs.writeFile('db.txt', JSON.stringify(database), function (err) {
+                        if (err) {
+                            res.writeHead(500);
+                            res.end();
+                            return;
+                        }
+                        res.writeHead(200);
+                        res.write('successful');
+                        res.end();
+                    });
+                }
+            });
+
         });
     }
 
