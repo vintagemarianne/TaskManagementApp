@@ -12,6 +12,7 @@
     _elements.signupBtn.addEventListener('click', redirectToSignupPage);
 
     function signin(e) {
+        
         var data = {
             username: _elements.username.value,
             password: _elements.password.value
@@ -26,7 +27,6 @@
                 document.location.href = 'http://localhost:8080/user';
             } else if (xhr.readyState === 4 && xhr.status === 500) {
                 alert(xhr.responseText);
-                // document.location.href = 'http://localhost:8080/user';
             }
         }
         xhr.open('POST', 'signin', true);

@@ -1,8 +1,4 @@
 const fs = require('fs');
-const querystring = require('querystring');
-const url = require('url');
-
-// const databaseHandler = require('./db-handler').databaseHandler();
 
 exports.requestHandler = function requestHandler(req, res) {
 
@@ -10,39 +6,17 @@ exports.requestHandler = function requestHandler(req, res) {
 
     var routeHandler;
 
-    const parsed = url.parse(req.url);
-    const query = querystring.parse(parsed.query);
-
     if (req.method === 'GET') {
-        switch (req.url) {
-            case '/':
-                routeHandler = rootProvider;
-                break;
-            case '/download':
-                routeHandler = downloadProvider;
-                break;
-            case '/user':
-                routeHandler = userProvider;
-                break;
-            case '/signin':
-                routeHandler = signinProvider;
-                break;
-            case '/signup':
-                routeHandler = signupProvider;
-                break;
-        }
+        if (req.url === '/') routeHandler = rootProvider;
+        else if (req.url.match(/^\/user\/\d+/)) routeHandler = userProvider;
+        else if (req.url === '/download') routeHandler = downloadProvider;
+        else if (req.url === '/signin') routeHandler = signinProvider;
+        else if (req.url === '/signup') routeHandler = signupProvider;
+
     } else if (req.method === 'POST') {
-        switch (req.url) {
-            case '/signup':
-                routeHandler = signupHandler;
-                break;
-            case '/signin':
-                routeHandler = signinHandler;
-                break;
-            case '/save':
-                routeHandler = saveHandler;
-                break;
-        }
+        if (req.url === '/signup') routeHandler = signupHandler;
+        else if (req.url === '/signin') routeHandler = signinHandler;
+        else if (req.url === '/save') routeHandler = saveHandler;
     }
 
     if (!routeHandler) {
@@ -101,7 +75,6 @@ exports.requestHandler = function requestHandler(req, res) {
         });
 
         req.on('end', () => {
-
             fs.readFile('db.txt', function (err, data) {
                 if (err) {
                     console.log('error')
@@ -109,14 +82,25 @@ exports.requestHandler = function requestHandler(req, res) {
                 }
 
                 fileData += data.toString('utf-8');
+
                 if (fileData === '') {
                     database = [];
                 } else {
                     database = JSON.parse(fileData);
                 }
-                
+
                 jsonData = JSON.parse(jsonData);
-                jsonData.data = {
+
+                if (database.some(item => jsonData.username === item.username)) {
+                    res.writeHead(500);
+                    res.write('The username is already taken.');
+                    res.end();
+                    return;
+                }
+
+                jsonData.id = database.length > 0 ? database[database.length - 1].id + 1 : 1;
+
+                jsonData.state = {
                     todos: [],
                     filter: 0
                 };
@@ -129,7 +113,9 @@ exports.requestHandler = function requestHandler(req, res) {
                         res.end();
                         return;
                     }
-                    res.writeHead(200);
+                    res.writeHead(200, {
+                        'Set-Cookie': `userId=${jsonData.id}`
+                    });
                     res.write('successful');
                     res.end();
                 });
@@ -168,18 +154,35 @@ exports.requestHandler = function requestHandler(req, res) {
                     var isUser = database.some(item => jsonData.username === item.username);
                     var isAuthenticated = database.some(item => jsonData.username === item.username && jsonData.password === item.password);
 
-                    if(!isUser) {
+                    if (!isUser) {
                         res.writeHead(500);
                         res.write('You have not signed in yet.');
                         res.end();
                         return;
-                    } else if(!isAuthenticated) {
+                    } else if (!isAuthenticated) {
                         res.writeHead(500);
                         res.write('Username or password is incorrect.');
                         res.end();
                         return;
                     }
-                    res.writeHead(200);
+                    database = database.map(item => jsonData.username === item.username ? {
+                        name: item.name,
+                        username: item.username,
+                        password: item.password,
+                        data: {
+                            sessionId: '123',
+                            filter: item.data.filter,
+                            todos: item.data.todos
+                        }
+                    } : item);
+                    fs.writeFile('db.txt', JSON.stringify(database), function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    res.writeHead(200, {
+                        'Set-Cookie': 'sessionId = 123'
+                    });
                     res.write('successful');
                     res.end();
                 }
@@ -211,6 +214,9 @@ exports.requestHandler = function requestHandler(req, res) {
     }
 
     function staticFileHandler(req, res) {
+        if (req.url.includes('/user')) {
+            req.url = req.url.substr(5, req.url.length - 1);
+        }
         fs.readFile('client/' + req.url, function (err, data) {
             if (err) {
                 res.writeHead(500);
@@ -221,6 +227,10 @@ exports.requestHandler = function requestHandler(req, res) {
             res.write(data);
             res.end();
         });
+    }
+
+    function readDB() {
+
     }
 
 }
