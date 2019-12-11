@@ -3,4 +3,4 @@
         app.controller.init();
     });
 
-}(app = {}))
+}(app))

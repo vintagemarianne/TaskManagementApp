@@ -27,7 +27,6 @@
                 alert('Signed up successfully!');
                 var userId = getCookie('userId');
                 document.location.href = `http://localhost:8080/user/${userId}`;
-                // document.location.href = `http://localhost:8080/user`;
             } else if (xhr.readyState === 4 && xhr.status === 500) {
                 alert(xhr.responseText);
             }

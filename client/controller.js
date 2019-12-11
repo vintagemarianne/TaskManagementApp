@@ -19,7 +19,6 @@
 
     function addTodo(value) {
         if (!value) return;
-        console.log(_model.todos)
         _model.todos.push({ id: _model.todos.length === 0 ? 1 : _model.todos[_model.todos.length - 1].id + 1,
              title: value });
         render();
@@ -65,7 +64,6 @@
 
     function downloadTodos() {
         var request = new XMLHttpRequest();
-        var data;
         request.onreadystatechange = function () {
             if (request.readyState == 4 && request.status == 200) {
                 alert('downloaded successfully.');
