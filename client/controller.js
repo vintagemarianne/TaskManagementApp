@@ -48,6 +48,7 @@
 
     function saveTodos() {
         var request = new XMLHttpRequest();
+        var jwt = btoa(app.cookie.get('jwt'));
         var data = JSON.stringify({
             'todos': _model.todos,
             'filter': _model.filter
@@ -55,23 +56,30 @@
         request.onreadystatechange = function () {
             if (request.readyState == 4 && request.status == 200) {
                 alert('saved successfully.');
+            } else if (request.readyState === 4 && request.status === 500) {
+                alert(request.responseText);
             }
         }
         request.open('POST', 'save', true);
         request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('jwt', jwt);
         request.send(data);
     }
 
     function downloadTodos() {
         var request = new XMLHttpRequest();
+        var jwt = btoa(app.cookie.get('jwt'));
         request.onreadystatechange = function () {
             if (request.readyState == 4 && request.status == 200) {
                 alert('downloaded successfully.');
                 _model = JSON.parse(request.responseText);
                 render();
+            } else if (request.readyState === 4 && request.status === 500) {
+                alert(request.responseText);
             }
         }
         request.open('GET', 'download', true);
+        request.setRequestHeader('jwt', jwt);
         request.send();
     }
 

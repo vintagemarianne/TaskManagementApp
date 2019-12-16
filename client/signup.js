@@ -25,8 +25,8 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert('Signed up successfully!');
-                var userId = getCookie('userId');
-                document.location.href = `http://localhost:8080/user/${userId}`;
+                var jwt = parseCookie('jwt');
+                document.location.href = `http://localhost:8080/user/${jwt}`;
             } else if (xhr.readyState === 4 && xhr.status === 500) {
                 alert(xhr.responseText);
             }
@@ -49,6 +49,12 @@
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    }
+
+    function parseCookie(name) {
+        var cookie = getCookie(name);
+        cookie = atob(cookie);
+        return cookie;
     }
 
 }());

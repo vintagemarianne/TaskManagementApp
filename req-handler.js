@@ -2,21 +2,24 @@ const fs = require('fs');
 
 exports.requestHandler = function requestHandler(req, res) {
 
+    const PRIVATE_KEY = "71E300F146C334A4A76E41484282A5F4";
+
     var database = [];
 
     var routeHandler;
 
+
     if (req.method === 'GET') {
         if (req.url === '/') routeHandler = rootProvider;
         else if (req.url.match(/^\/user\/\d+/)) routeHandler = userProvider;
-        else if (req.url === '/download') routeHandler = downloadProvider;
+        else if (req.url === '/user/download') routeHandler = downloadProvider;
         else if (req.url === '/signin') routeHandler = signinProvider;
         else if (req.url === '/signup') routeHandler = signupProvider;
 
     } else if (req.method === 'POST') {
         if (req.url === '/signup') routeHandler = signupHandler;
         else if (req.url === '/signin') routeHandler = signinHandler;
-        else if (req.url === '/save') routeHandler = saveHandler;
+        else if (req.url === '/user/save') routeHandler = saveHandler;
     }
 
     if (!routeHandler) {
@@ -49,6 +52,17 @@ exports.requestHandler = function requestHandler(req, res) {
     }
 
     function downloadProvider(req, res) {
+        let jwt = req.headers.jwt;
+        let fileData = '',
+            responseData;
+        if (!checkPrivateKey(jwt)) {
+            res.writeHead(500);
+            res.write('Action is not allowed!');
+            res.end();
+            return;
+        }
+
+        let user = decodeUser(jwt);
         fs.readFile('db.txt', function (err, data) {
             if (err) {
                 res.writeHead(500);
@@ -56,10 +70,24 @@ exports.requestHandler = function requestHandler(req, res) {
                 res.end();
                 return;
             }
+
+            fileData += data.toString('utf-8');
+
+            database = JSON.parse(fileData);
+
+            database.forEach(item => {
+                if (user.username === item.username) {
+                    responseData = {
+                        todos: item.state.todos,
+                        filter: item.state.filter
+                    }
+                }
+            })
             res.writeHead(200, {
                 'Content-Type': 'text/json'
             });
-            res.write(data);
+            responseData = JSON.stringify(responseData)
+            res.write(responseData);
             res.end();
         });
     }
@@ -98,14 +126,14 @@ exports.requestHandler = function requestHandler(req, res) {
                     return;
                 }
 
-                jsonData.id = database.length > 0 ? database[database.length - 1].id + 1 : 1;
-
                 jsonData.state = {
                     todos: [],
                     filter: 0
                 };
 
                 database.push((jsonData));
+
+                let jwt = encodeUser(jsonData.name, jsonData.username);
 
                 fs.writeFile('db.txt', JSON.stringify(database), function (err) {
                     if (err) {
@@ -114,7 +142,7 @@ exports.requestHandler = function requestHandler(req, res) {
                         return;
                     }
                     res.writeHead(200, {
-                        'Set-Cookie': `userId=${jsonData.id}`
+                        'Set-Cookie': `jwt=${jwt}`
                     });
                     res.write('successful');
                     res.end();
@@ -165,23 +193,31 @@ exports.requestHandler = function requestHandler(req, res) {
                         res.end();
                         return;
                     }
-                    database = database.map(item => jsonData.username === item.username ? {
-                        name: item.name,
-                        username: item.username,
-                        password: item.password,
-                        data: {
-                            sessionId: '123',
-                            filter: item.data.filter,
-                            todos: item.data.todos
+
+                    database.forEach(item => {
+                        if (jsonData.username === item.username) {
+                            jsonData = {
+                                name: item.name,
+                                username: item.username,
+                                password: item.password,
+                                state: {
+                                    filter: item.state.filter,
+                                    todos: item.state.todos
+                                }
+                            }
                         }
-                    } : item);
+                    });
+
                     fs.writeFile('db.txt', JSON.stringify(database), function (err) {
                         if (err) {
                             console.log(err);
                         }
                     });
+
+                    let jwt = encodeUser(jsonData.name, jsonData.username);
+
                     res.writeHead(200, {
-                        'Set-Cookie': 'sessionId = 123'
+                        'Set-Cookie': `jwt=${jwt}`
                     });
                     res.write('successful');
                     res.end();
@@ -192,23 +228,57 @@ exports.requestHandler = function requestHandler(req, res) {
     }
 
     function saveHandler(req, res) {
-        var jsonData = '';
+        let jwt = req.headers.jwt;
+        let fileData = '',
+            responseData;
+        if (!checkPrivateKey(jwt)) {
+            res.writeHead(500);
+            res.write('Action is not allowed!');
+            res.end();
+            return;
+        }
+
+        let user = decodeUser(jwt);
+        let jsonData = '';
 
         req.on('data', data => {
             jsonData += data.toString('utf-8')
         });
 
         req.on('end', () => {
-            fs.writeFile('db.txt', jsonData, function (err) {
+            fs.readFile('db.txt', function (err, data) {
                 if (err) {
                     res.writeHead(500);
+                    res.write('Erro');
                     res.end();
                     return;
                 }
-                res.writeHead(200, {
-                    'Content-Type': 'text/json'
+
+                fileData += data.toString('utf-8');
+
+                database = JSON.parse(fileData);
+                jsonData = JSON.parse(jsonData);
+
+                database = database.map(item => user.username === item.username ? {
+                    name: item.name,
+                    username: item.username,
+                    password: item.password,
+                    state: {
+                        todos: jsonData.todos,
+                        filter: jsonData.filter
+                    }
+                } : item);
+
+                fs.writeFile('db.txt', JSON.stringify(database), function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
                 });
+
+                res.writeHead(200);
+                res.write('successful');
                 res.end();
+
             });
         });
     }
@@ -229,8 +299,37 @@ exports.requestHandler = function requestHandler(req, res) {
         });
     }
 
-    function readDB() {
+    function encodeUser(name, username) {
+        let key = PRIVATE_KEY.replace('146C334A4A7', '&&&');
+        key = key.split("").reverse().join("");
+        key = `${key}=${name}&&${username}`;
+        let base64data = Buffer.from(key).toString('base64');
+        return base64data;
+    }
 
+    function checkPrivateKey(jwt) {
+        decodeUser(jwt)
+        let key = Buffer.from(jwt, 'base64').toString('ascii');
+        let i = key.lastIndexOf('=');
+        key = key.substr(0, i);
+        key = key.split("").reverse().join("");
+        key = key.replace('&&&', '146C334A4A7');
+        return key === PRIVATE_KEY;
+    }
+
+    function decodeUser(jwt) {
+        let credential = Buffer.from(jwt, 'base64').toString('ascii');
+        let indexOfEqual = credential.lastIndexOf('=');
+        credential = credential.substr(indexOfEqual + 1, credential.length - 1);
+        let firstIndexOfAnd = credential.indexOf('&');
+        let lastIndexOfAnd = credential.lastIndexOf('&');
+        let name = credential.substr(0, firstIndexOfAnd);
+        let username = credential.substr(lastIndexOfAnd + 1, credential.length - 1);
+        let user = {
+            username,
+            name
+        };
+        return user;
     }
 
 }

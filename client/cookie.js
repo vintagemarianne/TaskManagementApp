@@ -1,7 +1,6 @@
 (function(app){
     app.cookie = {
-        get: getCookie,
-        set: setCookie
+        get: parseCookie
     };
 
     function getCookie(name) {
@@ -15,8 +14,10 @@
         return null;
     }
 
-    function setCookie() {
-        // localStorage.setItem(item, JSON.stringify(obj));
+    function parseCookie(name) {
+        var cookie = getCookie(name);
+        cookie = atob(cookie);
+        return cookie;
     }
 
 }(app))
