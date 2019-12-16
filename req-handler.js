@@ -215,11 +215,15 @@ exports.requestHandler = function requestHandler(req, res) {
                     });
 
                     let jwt = encodeUser(jsonData.name, jsonData.username);
+                    let responseData = {
+                        todos: jsonData.state.todos,
+                        filter: jsonData.state.filter
+                    }
 
                     res.writeHead(200, {
                         'Set-Cookie': `jwt=${jwt}`
                     });
-                    res.write('successful');
+                    res.write(JSON.stringify(responseData));
                     res.end();
                 }
             });
