@@ -1,4 +1,5 @@
 const fs = require('fs');
+var handlers = require('./handlers');
 
 exports.requestHandler = function requestHandler(req, res) {
 
@@ -56,7 +57,7 @@ exports.requestHandler = function requestHandler(req, res) {
         let fileData = '',
             responseData;
         if (!checkPrivateKey(jwt)) {
-            res.writeHead(500);
+            res.writeHead(401);
             res.write('Action is not allowed!');
             res.end();
             return;
@@ -105,7 +106,9 @@ exports.requestHandler = function requestHandler(req, res) {
         req.on('end', () => {
             fs.readFile('db.txt', function (err, data) {
                 if (err) {
-                    console.log('error')
+                    res.writeHead(500);
+                    res.write(err.message);
+                    res.end();
                     return;
                 }
 
@@ -120,7 +123,7 @@ exports.requestHandler = function requestHandler(req, res) {
                 jsonData = JSON.parse(jsonData);
 
                 if (database.some(item => jsonData.username === item.username)) {
-                    res.writeHead(500);
+                    res.writeHead(401);
                     res.write('The username is already taken.');
                     res.end();
                     return;
@@ -138,6 +141,7 @@ exports.requestHandler = function requestHandler(req, res) {
                 fs.writeFile('db.txt', JSON.stringify(database), function (err) {
                     if (err) {
                         res.writeHead(500);
+                        res.write(err.message);
                         res.end();
                         return;
                     }
@@ -164,7 +168,9 @@ exports.requestHandler = function requestHandler(req, res) {
         req.on('end', () => {
             fs.readFile('db.txt', function (err, data) {
                 if (err) {
-                    console.log('error')
+                    res.writeHead(500);
+                    res.write(err.message);
+                    res.end();
                     return;
                 }
 
@@ -183,12 +189,12 @@ exports.requestHandler = function requestHandler(req, res) {
                     var isAuthenticated = database.some(item => jsonData.username === item.username && jsonData.password === item.password);
 
                     if (!isUser) {
-                        res.writeHead(500);
+                        res.writeHead(401);
                         res.write('You have not signed in yet.');
                         res.end();
                         return;
                     } else if (!isAuthenticated) {
-                        res.writeHead(500);
+                        res.writeHead(401);
                         res.write('Username or password is incorrect.');
                         res.end();
                         return;
@@ -210,7 +216,10 @@ exports.requestHandler = function requestHandler(req, res) {
 
                     fs.writeFile('db.txt', JSON.stringify(database), function (err) {
                         if (err) {
-                            console.log(err);
+                            res.writeHead(500);
+                            res.write(err.message);
+                            res.end();
+                            return;
                         }
                     });
 
@@ -236,7 +245,7 @@ exports.requestHandler = function requestHandler(req, res) {
         let fileData = '',
             responseData;
         if (!checkPrivateKey(jwt)) {
-            res.writeHead(500);
+            res.writeHead(401);
             res.write('Action is not allowed!');
             res.end();
             return;
@@ -253,7 +262,7 @@ exports.requestHandler = function requestHandler(req, res) {
             fs.readFile('db.txt', function (err, data) {
                 if (err) {
                     res.writeHead(500);
-                    res.write('Erro');
+                    res.write(err.message);
                     res.end();
                     return;
                 }
@@ -275,7 +284,9 @@ exports.requestHandler = function requestHandler(req, res) {
 
                 fs.writeFile('db.txt', JSON.stringify(database), function (err) {
                     if (err) {
-                        console.log(err);
+                        res.writeHead(500);
+                        res.write(err.message);
+                        res.end();
                     }
                 });
 
@@ -294,7 +305,7 @@ exports.requestHandler = function requestHandler(req, res) {
         fs.readFile('client/' + req.url, function (err, data) {
             if (err) {
                 res.writeHead(500);
-                res.write(err.name);
+                res.write(err.message);
                 res.end();
             }
             res.writeHead(200);
