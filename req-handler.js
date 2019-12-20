@@ -8,23 +8,23 @@ exports.requestHandler = function requestHandler(req, res) {
 
     var routeHandler;
 
+    routeHandler = ({
+        GET: {
+            '/': rootProvider,
+            '/user/download': downloadProvider,
+            '/signin': signinProvider,
+            '/signup': signupProvider
+        },
+        POST: {
+            '/signup': signupHandler,
+            '/signin': signinHandler,
+            '/user/save': saveHandler
+        }
+    })[req.method][req.url];
 
-    if (req.method === 'GET') {
-        if (req.url === '/') routeHandler = rootProvider;
-        else if (req.url.match(/^\/user\/\d+/)) routeHandler = userProvider;
-        else if (req.url === '/user/download') routeHandler = downloadProvider;
-        else if (req.url === '/signin') routeHandler = signinProvider;
-        else if (req.url === '/signup') routeHandler = signupProvider;
+    if (req.url.match(/^\/user\/\d+/)) routeHandler = userProvider;
 
-    } else if (req.method === 'POST') {
-        if (req.url === '/signup') routeHandler = signupHandler;
-        else if (req.url === '/signin') routeHandler = signinHandler;
-        else if (req.url === '/user/save') routeHandler = saveHandler;
-    }
-
-    if (!routeHandler) {
-        routeHandler = staticFileHandler;
-    }
+    if (!routeHandler) routeHandler = staticFileHandler;
 
     routeHandler(req, res);
 
