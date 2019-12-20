@@ -6,6 +6,8 @@ var signinProvider = require('./get/signin-provider');
 var signupProvider = require('./get/signup-provider');
 var downloadProvider = require('./get/download-provider');
 var rootProvider = require('./get/root-provider');
+var userProvider = require('./get/user-provider');
+var fileProvider = require('./get/file-provider');
 
 module.exports = {
     signinHandler,
@@ -14,5 +16,7 @@ module.exports = {
     signinProvider, 
     signupProvider,
     downloadProvider,
-    rootProvider
+    rootProvider,
+    userProvider,
+    fileProvider
 };
