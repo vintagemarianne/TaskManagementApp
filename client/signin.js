@@ -26,9 +26,10 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert('Signed in successfully!');
-                var jwt = parseCookie('jwt');
+                let jwt = parseJWT(xhr.getResponseHeader('jwt'));
                 document.location.href = `http://localhost:8080/user/${jwt}`;
                 localStorage.setItem('model', xhr.responseText);
+                localStorage.setItem('jwt', xhr.getResponseHeader('jwt'));
             } else if (xhr.readyState === 4 && xhr.status === 500) {
                 alert(xhr.responseText);
             }
@@ -58,10 +59,8 @@
         return null;
     }
 
-    function parseCookie(name) {
-        var cookie = getCookie(name);
-        cookie = atob(cookie);
-        return cookie;
+    function parseJWT(jwt) {
+        return atob(jwt);
     }
 
 }());

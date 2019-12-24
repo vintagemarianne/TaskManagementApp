@@ -55,7 +55,7 @@ function signupHandler(req, res) {
                     return;
                 }
                 res.writeHead(200, {
-                    'Set-Cookie': `jwt=${jwt}`
+                    'jwt': `${jwt}`
                 });
                 res.write('successful');
                 res.end();

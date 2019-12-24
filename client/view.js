@@ -18,6 +18,7 @@
         _listeners.showElement = listeners[7];
         _listeners.signin = listeners[8];
         _listeners.signup = listeners[9];
+        _listeners.signout = listeners[10];
 
         var el = document.getElementById.bind(document);
         _elements = {
@@ -40,7 +41,8 @@
             saveBtn: el('saveBtn'),
             downloadBtn: el('downloadBtn'),
             signupBtn: el('signupBtn'),
-            signinBtn: el('signinBtn')
+            signinBtn: el('signinBtn'),
+            signoutBtn: el('signoutBtn')
         };
 
         _elements.closeModalIcon.addEventListener('click', closeModal);
@@ -50,6 +52,7 @@
         _elements.downloadBtn.addEventListener('click', download);
         _elements.signupBtn.addEventListener('click', signup);
         _elements.signinBtn.addEventListener('click', signin);
+        _elements.signoutBtn.addEventListener('click', signout);
 
         if(_listeners.showElement()) {
             _elements.signinBtn.style.display = 'none';
@@ -57,6 +60,7 @@
         } else {
             _elements.saveBtn.style.display = 'none';
             _elements.downloadBtn.style.display = 'none';
+            _elements.signoutBtn.style.display = 'none';
         }
     }
 
@@ -86,6 +90,10 @@
 
     function openModal() {
         _elements.editModal.style.display = 'block';
+    }
+
+    function signout() {
+        _listeners.signout();
     }
 
     function signin() {

@@ -12,9 +12,14 @@
         } else {
             _model = { todos: [], filter: 0};
         }
-        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkCookie, signin, signup]);
+        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkJWT, signin, signup, signout]);
         render();
         app.view.changeTab(_model.filter + '');
+    }
+
+    function signout() {
+        app.localStorage.reset();
+        document.location.href = 'http://localhost:8080/signin';
     }
 
     function signin() {
@@ -25,8 +30,8 @@
         document.location.href = 'http://localhost:8080/signup';
     }
 
-    function checkCookie() {
-        if(document.cookie.length > 0) return true;
+    function checkJWT() {
+        if(app.localStorage.get('jwt')) return true;
         else return false;
     }
 
@@ -61,7 +66,7 @@
 
     function saveTodos() {
         var request = new XMLHttpRequest();
-        var jwt = btoa(app.cookie.get('jwt'));
+        var jwt = app.localStorage.get('jwt');
         var data = JSON.stringify({
             'todos': _model.todos,
             'filter': _model.filter
@@ -81,7 +86,7 @@
 
     function downloadTodos() {
         var request = new XMLHttpRequest();
-        var jwt = btoa(app.cookie.get('jwt'));
+        var jwt = app.localStorage.get('jwt');
         request.onreadystatechange = function () {
             if (request.readyState == 4 && request.status == 200) {
                 alert('downloaded successfully.');

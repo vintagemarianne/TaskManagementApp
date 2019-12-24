@@ -78,7 +78,7 @@ function sigininHandler(req, res) {
                 }
 
                 res.writeHead(200, {
-                    'Set-Cookie': `jwt=${jwt}`
+                    'jwt': `${jwt}`
                 });
                 res.write(JSON.stringify(responseData));
                 res.end();
