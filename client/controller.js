@@ -12,9 +12,22 @@
         } else {
             _model = { todos: [], filter: 0};
         }
-        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos]);
+        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkCookie, signin, signup]);
         render();
         app.view.changeTab(_model.filter + '');
+    }
+
+    function signin() {
+        document.location.href = 'http://localhost:8080/signin';
+    }
+
+    function signup() {
+        document.location.href = 'http://localhost:8080/signup';
+    }
+
+    function checkCookie() {
+        if(document.cookie.length > 0) return true;
+        else return false;
     }
 
     function addTodo(value) {
