@@ -30,7 +30,7 @@
                 document.location.href = `http://localhost:8080/user/${jwt}`;
                 localStorage.setItem('model', xhr.responseText);
                 localStorage.setItem('jwt', xhr.getResponseHeader('jwt'));
-            } else if (xhr.readyState === 4 && xhr.status === 500) {
+            } else if (xhr.readyState === 4 && xhr.status === 401) {
                 alert(xhr.responseText);
             }
         }

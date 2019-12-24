@@ -15,6 +15,27 @@
     _elements.guestBtn.addEventListener('click', signinAsGuest);
 
     function signup(e) {
+
+        if(!_elements.fullname.value) {
+            alert('Please enter your full name.');
+            return;
+        }
+
+        if(!_elements.username.value) {
+            alert('Please enter your username.');
+            return;
+        }
+
+        if(!_elements.password.value) {
+            alert('Password is neccessary');
+            return;
+        }
+
+        if(_elements.password.value.length < 6) {
+            alert('Password must be at least 6 characters');
+            return;
+        }
+
         var data = {
             name: _elements.fullname.value,
             username: _elements.username.value,
@@ -31,7 +52,7 @@
                 document.location.href = `http://localhost:8080/user/${jwt}`;
                 localStorage.setItem('model', '{"todos":[],"filter":0}');
                 localStorage.setItem('jwt', xhr.getResponseHeader('jwt'));
-            } else if (xhr.readyState === 4 && xhr.status === 500) {
+            } else if (xhr.readyState === 4 && xhr.status === 401) {
                 alert(xhr.responseText);
             }
         }
