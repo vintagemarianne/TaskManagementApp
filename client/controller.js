@@ -12,7 +12,7 @@
         } else {
             _model = { todos: [], filter: 0};
         }
-        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkJWT, signin, signup, signout]);
+        app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkJWT, signin, signup, signout, getUsername]);
         render();
         app.view.changeTab(_model.filter + '');
     }
@@ -33,6 +33,14 @@
     function checkJWT() {
         if(app.localStorage.get('jwt')) return true;
         else return false;
+    }
+
+    function getUsername() {
+        let jwt = atob(app.localStorage.get('jwt'));
+        let firstIndex = jwt.indexOf('=') + 1;
+        let lastIndex = jwt.lastIndexOf('&') - 1;
+        let name = jwt.substring(firstIndex, lastIndex);
+        return name;
     }
 
     function addTodo(value) {

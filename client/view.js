@@ -19,6 +19,7 @@
         _listeners.signin = listeners[8];
         _listeners.signup = listeners[9];
         _listeners.signout = listeners[10];
+        _listeners.getUsername = listeners[11];
 
         var el = document.getElementById.bind(document);
         _elements = {
@@ -42,7 +43,8 @@
             downloadBtn: el('downloadBtn'),
             signupBtn: el('signupBtn'),
             signinBtn: el('signinBtn'),
-            signoutBtn: el('signoutBtn')
+            signoutBtn: el('signoutBtn'),
+            userName: el('userName')
         };
 
         _elements.closeModalIcon.addEventListener('click', closeModal);
@@ -57,10 +59,12 @@
         if(_listeners.showElement()) {
             _elements.signinBtn.style.display = 'none';
             _elements.signupBtn.style.display = 'none';
+            showName();
         } else {
             _elements.saveBtn.style.display = 'none';
             _elements.downloadBtn.style.display = 'none';
             _elements.signoutBtn.style.display = 'none';
+            _elements.userName.style.display = 'none';
         }
     }
 
@@ -82,6 +86,10 @@
         }
         _elements.list.innerHTML = '';
         createList(todos);
+    }
+
+    function showName() {
+        _elements.userName.innerHTML += ' ' + _listeners.getUsername() + '!';
     }
 
     function closeModal() {

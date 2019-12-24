@@ -42,7 +42,7 @@ body {
     display: flex;
     flex-direction: row;
     position: absolute;
-    right: 32px;
+    right: 16px;
 }
 
 .header-btn {
@@ -54,6 +54,14 @@ body {
     border-radius: 5px;
     outline: none;
     padding: 8px 16px;
+    margin-left: 5px;
+}
+
+.header-name {
+    color: var(--color3);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 8px;
     margin-left: 5px;
 }
 
