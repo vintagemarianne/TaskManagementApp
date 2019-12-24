@@ -6,11 +6,13 @@
             fullname: el('fullnameInput'),
             username: el('usernameInput'),
             password: el('passwordInput'),
-            signinBtn: el('signinBtn')
+            signinBtn: el('signinBtn'),
+            guestBtn: el('guestBtn')
         };
 
     _elements.submitBtn.addEventListener('click', signup);
     _elements.signinBtn.addEventListener('click', redirectToSigninPage);
+    _elements.guestBtn.addEventListener('click', signinAsGuest);
 
     function signup(e) {
         var data = {
@@ -39,6 +41,11 @@
 
     function redirectToSigninPage() {
         document.location.href = 'http://localhost:8080/signin';
+    }
+
+    function signinAsGuest() {
+        document.location.href = 'http://localhost:8080/user';
+        localStorage.setItem('model', '{"todos":[],"filter":0}');
     }
 
     function getCookie(name) {

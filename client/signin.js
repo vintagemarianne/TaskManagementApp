@@ -5,11 +5,13 @@
             signinBtn: el('signinBtn'),
             username: el('usernameInput'),
             password: el('passwordInput'),
-            signupBtn: el('signupBtn')
+            signupBtn: el('signupBtn'),
+            guestBtn: el('guestBtn')
         };
 
     _elements.signinBtn.addEventListener('click', signin);
     _elements.signupBtn.addEventListener('click', redirectToSignupPage);
+    _elements.guestBtn.addEventListener('click', signinAsGuest);
 
     function signin(e) {
         
@@ -38,6 +40,11 @@
 
     function redirectToSignupPage() {
         document.location.href = 'http://localhost:8080/signup';
+    }
+
+    function signinAsGuest() {
+        document.location.href = 'http://localhost:8080/user';
+        localStorage.setItem('model', '{"todos":[],"filter":0}');
     }
 
     function getCookie(name) {
