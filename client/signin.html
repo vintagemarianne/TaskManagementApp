@@ -4,33 +4,33 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
-    <link href="signin.css" type="text/css" rel="stylesheet" />
+    <link href="register.css" type="text/css" rel="stylesheet" />
+    <title>Maryamize | Sign in</title>
 </head>
 
 <body>
     <div class="main-container">
-        <div class="left-container">
-            <h1 class="title">Todo App</h1>
-            <div class="welcome">Welcome Page</div>
-            <p class="desc">List your todos here and don't worry about forgetting them:<br>- List your todos<br>-Toggle
-                completed todos<br>- Remove or edit todos</p>
-            <div class="guest-btn" id="guestBtn">Try as guest!</div>
-        </div>
-        <div class="right-container">
-            <h3 class="form-title">Sign In</h3>
+        <div class="bottom-container">
+            <div class="title-container">
+                <div class="title">Maryamize</div>
+                <div class="subtitle">Smart Task Management: Manage your tasks easily.</div>
+            </div>
+
             <form class="form" id="signupForm">
-                <label>Username</label>
+                <div class="form-title">Sign In</div>
                 <input type="text" class="input-field" placeholder="Username" required id="usernameInput"
                     autocomplete="off">
-                <label>Password</label>
                 <input type="password" class="input-field" placeholder="Password" required minlength="6"
                     id="passwordInput" autocomplete="off">
-                <button class="signin-btn" type="button" id="signinBtn">Sign in</button>
-                <div class="login-div">Don't have an account? <span class="login-link" id="signupBtn">Sign up</span>.
+                <div class="register-btn" id="signinBtn">Sign in</div>
+                <div class="register-container">Don't have an account? <span class="register-link" id="signupBtn">Sign up</span>.
                 </div>
             </form>
+
+            <a class="contact-link" target="_blank" href="https://www.linkedin.com/in/maryam-heydarian-259014172/">@MaryamHeydarian</a>
         </div>
     </div>
+
     <script src="app.js"></script>
     <script src="signin.js"></script>
 </body>

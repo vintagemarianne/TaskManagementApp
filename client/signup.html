@@ -4,30 +4,33 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
-    <link href="signup.css" type="text/css" rel="stylesheet" />
+    <link href="register.css" type="text/css" rel="stylesheet" />
+    <title>Maryamize | Sign up</title>
 </head>
 
 <body>
     <div class="main-container">
-        <div class="left-container">
-            <h1 class="title">Todo App</h1>
-            <div class="welcome">Welcome Page</div>
-            <p class="desc">List your todos here and don't worry about forgetting them:<br>- List your todos<br>-Toggle
-                completed todos<br>- Remove or edit todos</p>
-            <div class="guest-btn" id="guestBtn">Try as guest!</div>
-        </div>
-        <div class="right-container">
-            <h3 class="form-title">Sign Up</h3>
-            <form class="form"s>
-                <label>Full Name</label>
-                <input type="text" class="input-field" placeholder="Full Name" id="fullnameInput" autocomplete="off" required>
-                <label>Username</label>
-                <input type="text" class="input-field" placeholder="Username" id="usernameInput" autocomplete="off" required>
-                <label>Password</label>
-                <input type="password" class="input-field" placeholder="Password" minlength="6" id="passwordInput" autocomplete="off" required>
-                <button class="signup-btn" id="signupBtn" type="button">Sign Up</button>
-                <div class="login-div">Already have an account? <span class="login-link" id="signinBtn">Sing in</span>.</div>
+        <div class="bottom-container">
+            <div class="title-container">
+                <div class="title">Maryamize</div>
+                <div class="subtitle">Smart Task Management: Manage your tasks easily. <div class="guest-btn" id="guestBtn">Guest <div class="arrow-icon"></div></div></div>
+            </div>
+
+            <form class="form" id="signupForm">
+                <div class="form-title">Sign Up</div>
+                <input type="text" class="input-field" placeholder="Name" id="fullnameInput" autocomplete="off"
+                    required>
+                <input type="text" class="input-field" placeholder="Username" id="usernameInput" autocomplete="off"
+                    required>
+                <input type="password" class="input-field" placeholder="Password" minlength="6" id="passwordInput"
+                    autocomplete="off" required>
+                <div class="register-btn" id="signupBtn">Sign up</div>
+                <div class="register-container">Already have an account? <span class="register-link" id="signinBtn">Sing in</span>.
+                </div>
             </form>
+
+            <a class="contact-link" target="_blank"
+                href="https://www.linkedin.com/in/maryam-heydarian-259014172/">@MaryamHeydarian</a>
         </div>
     </div>
 
