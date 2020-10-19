@@ -9,45 +9,62 @@
 </head>
 
 <body>
-    <div class="header">
-        <h1 class="header-title">List Your Tasks Here!</h1>
-        <div class="header-btn-wrapper">
-            <div class="header-btn" title="Save current state" id="saveBtn">Save</div>
-            <div class="header-btn" title="Download last saved state" id="downloadBtn">Download</div>
-            <div class="header-btn" id="signinBtn">Sign in</div>
-            <div class="header-btn" id="signupBtn">Sign up</div>
-            <div class="header-btn" id="signoutBtn">Sign out</div>
-            <div class="header-name" id="userName">Hey</div>
+    <div class="main-container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-avatar"></div>
+                <div class="header-name" id="userName"></div>
+            </div>
+
+            <div class="header-content header-btn-group">
+                <div class="header-btn save-btn" title="Save current state" id="saveBtn"><span
+                        class="btn-text save-text">Save</span></div>
+                <div class="header-btn download-btn" title="Download last saved state" id="downloadBtn"><span
+                        class="btn-text download-text">Download</span></div>
+                <div class="header-btn signin-btn" title="Sign in" id="signinBtn"><span
+                        class="btn-text signin-text">Sign in</span></div>
+                <div class="header-btn signup-btn" title="Sign up" id="signupBtn"><span
+                        class="btn-text signup-text">Sign up</span></div>
+                <div class="header-btn signout-btn" title="Sign out" id="signoutBtn"><span
+                        class="btn-text signout-text">Sign out</span></div>
+            </div>
         </div>
-    </div>
-    <div class="input-wrapper">
-        <label for="input">New Task: </label>
-        <div class="input-box">
-            <input name="input" id="input" class="input" type="text" placeholder="Write new task here..."
-                autocomplete="off" />
-            <button class="add-btn" id="addBtn">Add</button>
-        </div>
-    </div>
-    <div class="main-body" id="mainBody">
-        <div class="tab-btn-wrapper" id="tabBar">
-            <button class="tablinks" value="0" id="tab0">All Tasks</button>
-            <button class="tablinks" value="1" id="tab1">Active</button>
-            <button class="tablinks" value="2" id="tab2">Completed</button>
+
+        <div class="add-task-btn" id="addTaskBtn">Add Task<div class="add-icon"></div>
         </div>
 
 
-        <div class="tab active-tab" id="allTasksTab">
-            <ul class="tab-list" id="list"></ul>
-        </div>
-    </div>
+        <div class="main-content">
+            <div class="main-title">Progress</div>
 
-    <div class="modal" id="editModal">
-        <div class="input-wrapper">
-            <span class="times" id="closeModalIcon">&times;</span>
-            <label for="input">Edit Task: </label>
-            <div class="input-box">
+            <div class="tab-container" id="tabBar">
+                <div class="tab" value="0" id="tab0"><span class="tab-badge tasks-badge"></span>All Tasks</div>
+                <div class="dash-line"></div>
+                <div class="tab" value="1" id="tab1"><span class="tab-badge inprogress-badge"></span>In Progress</div>
+                <div class="dash-line second-dash-line"></div>
+                <div class="tab" value="2" id="tab2"><span class="tab-badge completed-badge"></span>Completed</div>
+            </div>
+
+            <div class="main-title">Tasks</div>
+
+            <div class="list" id="list"></div>
+        </div>
+
+        <div class="modal" id="addTaskModal">
+            <div class="modal-box add-modal-box">
+                <div class="close-btn" id="closeAddModalIcon">&times;</div>
+                <div class="modal-desc">Enter task title.</div>
+                <input name="input" id="input" class="input" type="text" placeholder="Task" autocomplete="off" />
+                <div class="modal-btn" id="addBtn">Add</div>
+            </div>
+        </div>
+
+        <div class="modal" id="editModal">
+            <div class="modal-box edit-modal-box">
+                <span class="close-btn" id="closeEditModalIcon">&times;</span>
+                <div class="modal-desc">Edit task title.</div>
                 <input name="input" id="modalInput" class="input" type="text" autocomplete="off" />
-                <button class="add-btn" id="modalBtn">Edit</button>
+                <div class="modal-btn" id="modalBtn">Edit</div>
             </div>
         </div>
     </div>
