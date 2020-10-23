@@ -52,7 +52,7 @@
                 document.location.href = `http://localhost:8080/user/${jwt}`;
                 localStorage.setItem('model', '{"todos":[],"filter":0}');
                 localStorage.setItem('jwt', xhr.getResponseHeader('jwt'));
-            } else if (xhr.readyState === 4 && xhr.status === 401) {
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 alert(xhr.responseText);
             }
         }

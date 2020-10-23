@@ -30,7 +30,7 @@
                 document.location.href = `http://localhost:8080/user/${jwt}`;
                 localStorage.setItem('model', xhr.responseText);
                 localStorage.setItem('jwt', xhr.getResponseHeader('jwt'));
-            } else if (xhr.readyState === 4 && xhr.status === 401) {
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 alert(xhr.responseText);
             }
         }
@@ -46,17 +46,6 @@
     function signinAsGuest() {
         document.location.href = 'http://localhost:8080/user';
         localStorage.setItem('model', '{"todos":[],"filter":0}');
-    }
-
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
     }
 
     function parseJWT(jwt) {

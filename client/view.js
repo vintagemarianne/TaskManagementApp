@@ -72,6 +72,7 @@
 
 
     function render(todos, filter) {
+        changeTab(filter + '');
         if (!todos.length) {
             switch (filter) {
                 case 0:
@@ -167,16 +168,22 @@
             case '0':
                 _elements.tab1.className = _elements.tab1.className.replace(" active-tab", "");
                 _elements.tab2.className = _elements.tab2.className.replace(" active-tab", "");
+                if( _elements.tab0.className.indexOf(" active-tab") > -1) return;
+
                 _elements.tab0.className += " active-tab";
                 break;
             case '1':
                 _elements.tab0.className = _elements.tab0.className.replace(" active-tab", "");
                 _elements.tab2.className = _elements.tab2.className.replace(" active-tab", "");
+                if( _elements.tab1.className.indexOf(" active-tab") > -1) return;
+
                 _elements.tab1.className += " active-tab";
                 break;
             case '2':
                 _elements.tab0.className = _elements.tab0.className.replace(" active-tab", "");
                 _elements.tab1.className = _elements.tab1.className.replace(" active-tab", "");
+                if( _elements.tab2.className.indexOf(" active-tab") > -1) return;
+
                 _elements.tab2.className += " active-tab";
                 break;
         }

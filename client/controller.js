@@ -5,12 +5,16 @@
     };
 
     var _model;
+
     function init() {
         var jsonModel = app.localStorage.get('model');
-        if(jsonModel) {
+        if (jsonModel) {
             _model = jsonModel;
         } else {
-            _model = { todos: [], filter: 0};
+            _model = {
+                todos: [],
+                filter: 0
+            };
         }
         app.view.init([addTodo, completeTodo, editTodo, deleteTodo, filterTodos, saveTodos, downloadTodos, checkJWT, signin, signup, signout, getUsername]);
         render();
@@ -31,7 +35,7 @@
     }
 
     function checkJWT() {
-        if(app.localStorage.get('jwt')) return true;
+        if (app.localStorage.get('jwt')) return true;
         else return false;
     }
 
@@ -45,8 +49,10 @@
 
     function addTodo(value) {
         if (!value) return;
-        _model.todos.push({ id: _model.todos.length === 0 ? 1 : _model.todos[_model.todos.length - 1].id + 1,
-             title: value });
+        _model.todos.push({
+            id: _model.todos.length === 0 ? 1 : _model.todos[_model.todos.length - 1].id + 1,
+            title: value
+        });
         render();
     }
 
@@ -61,7 +67,7 @@
     }
 
     function deleteTodo(todo) {
-        _model.todos = _model.todos.filter( item => {
+        _model.todos = _model.todos.filter(item => {
             return item.id !== todo.id;
         });
         render();
@@ -100,7 +106,7 @@
                 alert('downloaded successfully.');
                 _model = JSON.parse(request.responseText);
                 render();
-            } else if (request.readyState === 4 && request.status === 500) {
+            } else if (request.readyState === 4 && request.status !== 200) {
                 alert(request.responseText);
             }
         }
